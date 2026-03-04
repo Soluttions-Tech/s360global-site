@@ -49,7 +49,7 @@ export default function AboutUs() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-                            className="p-8 border-l-2 border-brand-orange bg-brand-light/[0.02] text-left"
+                            className="p-8 border-l-2 border-brand-orange text-left"
                         >
                             <strong>S360 Global</strong> represents our strategic presence in the United States — an investment in people, processes, and local capabilities designed to create sustainable value, not just returns.
                         </motion.p>

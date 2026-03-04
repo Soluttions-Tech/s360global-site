@@ -23,9 +23,12 @@ function App() {
               loop
               muted
               playsInline
-              className="w-[480px] md:w-[680px] opacity-20 blur-[8px] mix-blend-screen object-contain"
+              className="w-[640px] md:w-[880px] opacity-[0.25] blur-[4px] mix-blend-screen object-contain"
+              style={{
+                maskImage: 'radial-gradient(circle at center, black 40%, transparent 70%)',
+                WebkitMaskImage: 'radial-gradient(circle at center, black 40%, transparent 70%)',
+              }}
             />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_10%,#110609_60%)]" />
           </div>
 
           <AboutUs />

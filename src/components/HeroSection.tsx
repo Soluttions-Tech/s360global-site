@@ -70,13 +70,13 @@ export default function HeroSection() {
                     className="md:hidden opacity-90 object-contain flex-shrink-0"
                     style={{ width: '20000px' }}
                 />
-                {/* DESKTOP: slightly less zoomed than before */}
+                {/* DESKTOP: slightly less zoomed than before, smoother animation */}
                 <motion.img
                     src={sunLogo}
                     alt=""
-                    initial={{ rotate: -5 }}
-                    animate={{ rotate: 5 }}
-                    transition={{ repeat: Infinity, duration: 8, ease: "easeInOut", repeatType: "reverse" }}
+                    initial={{ rotate: -3 }}
+                    animate={{ rotate: 3 }}
+                    transition={{ repeat: Infinity, duration: 15, ease: "easeInOut", repeatType: "reverse" }}
                     className="hidden md:block w-[1300px] opacity-90 object-contain"
                 />
                 {/* Radial gradient */}
