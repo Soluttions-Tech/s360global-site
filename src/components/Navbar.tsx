@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { List, X, Sun, Moon } from '@phosphor-icons/react';
+import { List, X } from '@phosphor-icons/react';
 import horizontalLogo from '../assets/logo_branca_horizontal_comnome.png';
-import { useTheme } from '../context/ThemeContext';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -64,47 +62,11 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Theme toggle */}
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-              className="w-9 h-9 rounded-full border border-brand-light/20 flex items-center justify-center text-brand-light/70 hover:border-brand-orange/60 hover:text-brand-orange transition-all duration-300"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {theme === 'dark' ? (
-                  <motion.span
-                    key="sun"
-                    initial={{ opacity: 0, rotate: -30, scale: 0.7 }}
-                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                    exit={{ opacity: 0, rotate: 30, scale: 0.7 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    <Sun size={16} weight="light" />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="moon"
-                    initial={{ opacity: 0, rotate: 30, scale: 0.7 }}
-                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                    exit={{ opacity: 0, rotate: -30, scale: 0.7 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    <Moon size={16} weight="light" />
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </button>
+
           </div>
 
           {/* Mobile: theme toggle + hamburger */}
           <div className="md:hidden flex items-center gap-3">
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-              className="w-8 h-8 rounded-full border border-brand-light/20 flex items-center justify-center text-brand-light/70 hover:border-brand-orange/60 hover:text-brand-orange transition-all duration-300"
-            >
-              {theme === 'dark' ? <Sun size={14} weight="light" /> : <Moon size={14} weight="light" />}
-            </button>
             <button
               className="text-brand-light/80 p-1 focus:outline-none"
               onClick={() => setMenuOpen(prev => !prev)}
