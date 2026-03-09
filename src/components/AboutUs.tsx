@@ -1,7 +1,12 @@
 import { motion } from 'framer-motion';
 export default function AboutUs() {
     return (
-        <section id="about" className="pt-32 pb-16 relative border-t border-brand-light/5 overflow-hidden">
+        <section id="about" className="pt-24 pb-16 relative overflow-hidden">
+            {/* Warm orange ambient glow — gives depth without covering content */}
+            <div
+                className="absolute inset-0 pointer-events-none"
+                style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(184,58,12,0.07) 0%, transparent 70%)' }}
+            />
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
@@ -13,9 +18,8 @@ export default function AboutUs() {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="lg:col-span-5 text-center lg:text-left"
                     >
-                        <h2 className="font-copasetic text-4xl md:text-5xl mb-8 leading-tight">
-                            Who We <br />
-                            <span className="text-brand-light/40">Are</span>
+                        <h2 className="font-copasetic text-4xl md:text-5xl mb-8 leading-tight text-transparent bg-clip-text bg-brand-gradient animate-text-gradient">
+                            Who We Are
                         </h2>
                         {/* Animated underline — centered on mobile */}
                         <motion.div

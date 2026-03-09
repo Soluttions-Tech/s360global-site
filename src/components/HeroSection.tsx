@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import sunLogo from '../assets/logo_SOL_vermelha_e_laranja.png';
-import ballLogo from '../assets/logo_branca_apenasbola.png';
+import logoMotion from '../assets/logo_motion.mp4';
+import { useTheme } from '../context/ThemeContext';
 
 export default function HeroSection() {
+    const { theme } = useTheme();
     const containerVars: Variants = {
         hidden: { opacity: 0 },
         visible: {
@@ -53,35 +54,26 @@ export default function HeroSection() {
 
     return (
         <section className="relative min-h-[80vh] md:min-h-screen flex items-center justify-center pt-16 md:pt-24 pb-8 md:pb-0 overflow-hidden bg-brand-dark">
-            {/* Background Graphic using Sun Logo */}
-            <motion.div
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 0.4, scale: 1 }}
-                transition={{ duration: 4, ease: "easeOut" }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none flex items-center justify-center mix-blend-screen"
-            >
-                {/* MOBILE: massive so edges bleed, near-static slow rotation */}
-                <motion.img
-                    src={sunLogo}
-                    alt=""
-                    initial={{ rotate: -2 }}
-                    animate={{ rotate: 2 }}
-                    transition={{ repeat: Infinity, duration: 24, ease: "easeInOut", repeatType: "reverse" }}
-                    className="md:hidden opacity-90 object-contain flex-shrink-0"
-                    style={{ width: '20000px' }}
+            {/* Background: blurry logo motion video */}
+            <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
+                <video
+                    src={logoMotion}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className={`w-[640px] md:w-[880px] opacity-[0.25] blur-[4px] object-contain ${theme === 'dark' ? 'mix-blend-screen' : 'mix-blend-multiply'}`}
+                    style={{
+                        maskImage: 'radial-gradient(circle at center, black 40%, transparent 70%)',
+                        WebkitMaskImage: 'radial-gradient(circle at center, black 40%, transparent 70%)',
+                    }}
                 />
-                {/* DESKTOP: slightly less zoomed than before, smoother animation */}
-                <motion.img
-                    src={sunLogo}
-                    alt=""
-                    initial={{ rotate: -3 }}
-                    animate={{ rotate: 3 }}
-                    transition={{ repeat: Infinity, duration: 15, ease: "easeInOut", repeatType: "reverse" }}
-                    className="hidden md:block w-[1300px] opacity-90 object-contain"
-                />
-                {/* Radial gradient */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_10%,#110609_70%)]" />
-            </motion.div>
+            </div>
+            {/* Bottom fade — adapts to theme via --color-brand-dark */}
+            <div
+                className="absolute inset-x-0 bottom-0 h-32 pointer-events-none z-0"
+                style={{ background: 'linear-gradient(to bottom, transparent, var(--color-brand-dark))' }}
+            />
 
             <div className="relative z-10 w-full max-w-7xl mx-auto px-6 text-center flex flex-col items-center justify-center mt-8">
                 <motion.div
@@ -90,17 +82,6 @@ export default function HeroSection() {
                     animate="visible"
                     className="max-w-4xl flex flex-col items-center"
                 >
-                    {/* Ball logo above the title */}
-                    <motion.div variants={itemVars} className="mb-8">
-                        <motion.img
-                            src={ballLogo}
-                            alt="S360"
-                            whileHover={{ scale: 1.08 }}
-                            transition={{ duration: 0.6, ease: "easeOut" }}
-                            className="w-12 h-12 object-contain cursor-pointer opacity-90"
-                        />
-                    </motion.div>
-
                     <motion.h1 variants={itemVars} className="font-copasetic text-4xl sm:text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.1] mb-8">
                         Built on Experience.<br className="hidden md:block" />{' '}
                         {/* Left-to-right clip reveal — period stays inside to avoid orphan */}
@@ -122,7 +103,7 @@ export default function HeroSection() {
                     </motion.p>
 
                     <motion.div variants={itemVars} className="flex justify-center w-full">
-                        <a href="#about" className="px-10 py-4 border border-brand-orange text-brand-orange font-figtree font-semibold uppercase tracking-widest text-xs hover:bg-brand-orange hover:text-white transition-all duration-500 bg-transparent rounded-sm">
+                        <a href="#about" className="px-10 py-4 border border-brand-orange text-brand-orange font-figtree font-semibold uppercase tracking-widest text-xs hover:bg-brand-orange hover:text-white transition-all duration-500 bg-transparent rounded-full">
                             Discover S360
                         </a>
                     </motion.div>

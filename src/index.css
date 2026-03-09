@@ -29,6 +29,40 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Dynamic tokens (dark = default) ─────────────────────────────── */
+:root {
+  --wave-fill:        #2a1008;
+  --wave-mid:         #351208;
+  --wave-stroke:      rgba(184, 58, 12, 0.42);
+  --nav-scrolled-bg:  rgba(10, 3, 5, 0.62);
+  --nav-mobile-bg:    rgba(10, 3, 5, 0.97);
+  --logo-filter:      none;
+}
+
+/* ── Light mode overrides ─────────────────────────────────────────── */
+[data-theme="light"] {
+  --color-brand-dark:     #fdf8f5;
+  --color-brand-light:    #1a0608;
+
+  --wave-fill:        #f0ddd4;
+  --wave-mid:         #e8cfc3;
+  --wave-stroke:      rgba(184, 58, 12, 0.55);
+  --nav-scrolled-bg:  rgba(253, 248, 245, 0.88);
+  --nav-mobile-bg:    rgba(253, 248, 245, 0.98);
+  --logo-filter:      brightness(0);
+}
+
+/* ── Force-dark island (e.g. ZenithProjects inside a light page) ──── */
+[data-theme="dark"] {
+  --color-brand-dark:     #110609;
+  --color-brand-light:    #f4f5f7;
+
+  --wave-fill:        #2a1008;
+  --wave-mid:         #351208;
+  --wave-stroke:      rgba(184, 58, 12, 0.42);
+  --logo-filter:      none;
+}
+
 .bg-brand-gradient {
   background-image: linear-gradient(to right, var(--color-brand-yellow), var(--color-brand-orange), var(--color-brand-burgundy));
 }

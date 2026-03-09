@@ -4,42 +4,87 @@ import AboutUs from './components/AboutUs';
 import Approach from './components/Approach';
 import ZenithProjects from './components/ZenithProjects';
 import Footer from './components/Footer';
-import logoMotion from './assets/logo_motion.mp4';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 
-function App() {
+/* ─── Flat gradient-strip divider ────────────────────────────────────
+   Uses CSS variables so colours adapt to dark / light theme.
+   accent=true adds a centred 1px orange accent line.
+────────────────────────────────────────────────────────────────────── */
+function FlatDivider({ accent = false }: { accent?: boolean }) {
+  if (accent) {
+    return (
+      <div className="relative py-6 pointer-events-none overflow-hidden">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to bottom, var(--color-brand-dark), var(--wave-mid), var(--color-brand-dark))',
+          }}
+        />
+        <div className="relative max-w-7xl mx-auto px-6">
+          <div
+            className="h-px"
+            style={{
+              background:
+                'linear-gradient(to right, transparent, var(--wave-stroke) 50%, transparent)',
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-brand-dark min-h-screen text-brand-light font-figtree selection:bg-brand-burgundy selection:text-brand-light">
+    <div
+      className="h-16 pointer-events-none"
+      style={{
+        background:
+          'linear-gradient(to bottom, var(--color-brand-dark), var(--wave-fill), var(--color-brand-dark))',
+      }}
+    />
+  );
+}
+
+function AppInner() {
+  const { theme } = useTheme();
+
+  return (
+    <div
+      data-theme={theme}
+      className="bg-brand-dark min-h-screen text-brand-light font-figtree selection:bg-brand-burgundy selection:text-brand-light transition-colors duration-500"
+    >
       <Navbar />
       <main>
         <HeroSection />
 
-        {/* Shared background wrapper spanning both Who We Are + How We Work */}
-        <div className="relative overflow-hidden">
-          {/* Blurry video background — sits behind both sections */}
-          <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
-            <video
-              src={logoMotion}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-[640px] md:w-[880px] opacity-[0.25] blur-[4px] mix-blend-screen object-contain"
-              style={{
-                maskImage: 'radial-gradient(circle at center, black 40%, transparent 70%)',
-                WebkitMaskImage: 'radial-gradient(circle at center, black 40%, transparent 70%)',
-              }}
-            />
-          </div>
+        {/* Hero → Who We Are */}
+        <FlatDivider />
 
-          <AboutUs />
-          <Approach />
+        <AboutUs />
+
+        {/* Who We Are → How We Work — with accent line */}
+        <FlatDivider accent />
+
+        <Approach />
+
+        {/* How We Work → Zenith */}
+        <FlatDivider />
+
+        {/* Zenith always stays dark regardless of theme */}
+        <div data-theme="dark">
+          <ZenithProjects />
         </div>
-
-        <ZenithProjects />
       </main>
       <Footer />
     </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppInner />
+    </ThemeProvider>
+  );
+}
+

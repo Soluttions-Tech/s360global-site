@@ -19,7 +19,8 @@ export default function Footer() {
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         whileHover={{ scale: 1.12, opacity: 1 }}
                         transition={{ duration: 0.7, ease: "easeOut" }}
-                        className="h-9 md:h-12 mb-6 w-auto opacity-60 cursor-pointer"
+                        className="h-9 md:h-12 mb-6 w-auto opacity-60 cursor-pointer transition-[filter] duration-500"
+                        style={{ filter: 'var(--logo-filter)' }}
                     />
                     <p>&copy; {new Date().getFullYear()} S360 Global Group. All rights reserved.</p>
                 </div>
