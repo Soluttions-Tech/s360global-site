@@ -1,13 +1,10 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 import logoMotion from '../assets/logo_motion.mp4';
-import logoMark from '../assets/logo_branca_apenasbola.png';
 import { useTheme } from '../context/ThemeContext';
 
 export default function HeroSection() {
     const { theme } = useTheme();
-    const [videoReady, setVideoReady] = useState(false);
     const containerVars: Variants = {
         hidden: { opacity: 0 },
         visible: {
@@ -57,16 +54,6 @@ export default function HeroSection() {
 
     return (
         <section className="relative min-h-[80vh] md:min-h-screen flex items-center justify-center pt-16 md:pt-24 pb-8 md:pb-0 overflow-hidden bg-brand-dark">
-            {/* Static fallback keeps the hero background visible on mobile even if autoplay is restricted. */}
-            <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
-                <img
-                    src={logoMark}
-                    alt=""
-                    aria-hidden="true"
-                    className={`w-[260px] sm:w-[320px] md:w-[420px] lg:w-[520px] blur-[1px] object-contain transition-opacity duration-700 ${videoReady ? 'opacity-0' : 'opacity-[0.16] md:opacity-[0.12]'} ${theme === 'dark' ? '' : 'mix-blend-multiply'}`}
-                />
-            </div>
-
             {/* Background: blurry logo motion video */}
             <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
                 <video
@@ -75,11 +62,7 @@ export default function HeroSection() {
                     loop
                     muted
                     playsInline
-                    preload="auto"
-                    onCanPlay={() => setVideoReady(true)}
-                    onPlaying={() => setVideoReady(true)}
                     className={`w-[360px] sm:w-[460px] md:w-[880px] opacity-[0.32] md:opacity-[0.25] blur-[2px] md:blur-[4px] object-contain ${theme === 'dark' ? 'mix-blend-screen' : 'mix-blend-multiply'}`}
-                    poster={logoMark}
                     style={{
                         maskImage: 'radial-gradient(circle at center, black 48%, transparent 76%)',
                         WebkitMaskImage: 'radial-gradient(circle at center, black 48%, transparent 76%)',
