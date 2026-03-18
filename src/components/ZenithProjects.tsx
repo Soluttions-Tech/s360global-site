@@ -54,8 +54,8 @@ function DesktopCard({ project, index }: { project: Project; index: number }) {
 
             {/* Background image — fades in on hover */}
             <motion.div
-                animate={{ opacity: hovered ? 1 : 0 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
+                animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : 1.06 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-0 z-0"
             >
                 <img src={project.image} alt={project.title} className="w-full h-full object-cover opacity-[0.44]" />
@@ -64,9 +64,9 @@ function DesktopCard({ project, index }: { project: Project; index: number }) {
 
             {/* Default content */}
             <motion.div
-                animate={{ opacity: hovered ? 0 : 1, y: hovered ? -8 : 0 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="absolute inset-0 z-10 p-12 lg:p-16 flex flex-col"
+                animate={{ opacity: hovered ? 0 : 1, y: hovered ? -18 : 0, scale: hovered ? 0.985 : 1 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className={`absolute inset-0 z-10 p-12 lg:p-16 flex flex-col ${hovered ? 'pointer-events-none' : 'pointer-events-auto'}`}
             >
                 <div className="mb-6">{project.icon}</div>
                 <h3 className="font-copasetic text-3xl mb-3">{project.title}</h3>
@@ -76,9 +76,9 @@ function DesktopCard({ project, index }: { project: Project; index: number }) {
 
             {/* Hover content */}
             <motion.div
-                animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 20 }}
-                transition={{ duration: 0.6, ease: "easeOut", delay: hovered ? 0.1 : 0 }}
-                className="absolute inset-0 z-10 p-12 lg:p-16 flex flex-col justify-end"
+                animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 28, scale: hovered ? 1 : 0.985 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: hovered ? 0.08 : 0 }}
+                className={`absolute inset-0 z-10 p-12 lg:p-16 flex flex-col justify-end ${hovered ? 'pointer-events-auto' : 'pointer-events-none'}`}
             >
                 <p className={`font-figtree text-xs uppercase tracking-[0.3em] font-semibold mb-3 border-l-2 pl-3 ${project.accentClass} text-brand-light/60`}>
                     Zenith {project.title}
@@ -96,53 +96,59 @@ function MobileCard({ project }: { project: Project }) {
     const [flipped, setFlipped] = useState(false);
 
     return (
-        <div
-            className="relative overflow-hidden border border-brand-light/10 bg-brand-dark cursor-pointer h-[380px] w-full"
+        <motion.button
+            type="button"
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="group relative h-[380px] w-full cursor-pointer overflow-hidden border border-brand-light/10 bg-brand-dark text-left [perspective:1400px]"
             onClick={() => setFlipped(f => !f)}
         >
             {/* Top gradient bar always visible on mobile */}
             <div className="absolute top-0 left-0 w-full h-[2px] bg-brand-gradient z-20" />
 
-            {/* Background image */}
             <motion.div
-                animate={{ opacity: flipped ? 1 : 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="absolute inset-0 z-0"
+                animate={{ rotateY: flipped ? 180 : 0 }}
+                transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
+                className="relative h-full w-full"
+                style={{ transformStyle: 'preserve-3d' }}
             >
-                <img src={project.image} alt={project.title} className="w-full h-full object-cover opacity-[0.44]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/70 to-transparent" />
-            </motion.div>
+                {/* Default face */}
+                <div
+                    className={`absolute inset-0 z-10 flex flex-col p-8 [backface-visibility:hidden] ${flipped ? 'pointer-events-none' : 'pointer-events-auto'}`}
+                >
+                    <div className="mb-5">{project.icon}</div>
+                    <h3 className="font-copasetic text-2xl mb-2">{project.title}</h3>
+                    <p className="font-figtree text-brand-yellow/80 text-xs uppercase tracking-widest mb-5 font-semibold">{project.subtitle}</p>
+                    <p className="font-figtree text-brand-light/60 font-light leading-relaxed text-sm flex-1">{project.shortDescription}</p>
+                    <div className="flex items-center gap-2 mt-6 text-brand-light/35 text-xs uppercase tracking-widest font-semibold font-figtree transition-opacity duration-300 group-active:opacity-60">
+                        <span className="w-4 h-px bg-brand-light/20" />
+                        Tap to explore
+                    </div>
+                </div>
 
-            {/* Default face */}
-            <motion.div
-                animate={{ opacity: flipped ? 0 : 1, y: flipped ? -8 : 0 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                className="absolute inset-0 z-10 p-8 flex flex-col"
-            >
-                <div className="mb-5">{project.icon}</div>
-                <h3 className="font-copasetic text-2xl mb-2">{project.title}</h3>
-                <p className="font-figtree text-brand-yellow/80 text-xs uppercase tracking-widest mb-5 font-semibold">{project.subtitle}</p>
-                <p className="font-figtree text-brand-light/60 font-light leading-relaxed text-sm flex-1">{project.shortDescription}</p>
-                <div className="flex items-center gap-2 mt-6 text-brand-light/35 text-xs uppercase tracking-widest font-semibold font-figtree">
-                    <span className="w-4 h-px bg-brand-light/20" />
-                    Tap to explore
+                {/* Flipped face */}
+                <div
+                    className={`absolute inset-0 z-10 flex flex-col justify-end p-8 [backface-visibility:hidden] ${flipped ? 'pointer-events-auto' : 'pointer-events-none'}`}
+                    style={{ transform: 'rotateY(180deg)' }}
+                >
+                    <div className="absolute inset-0 z-0">
+                        <img src={project.image} alt={project.title} className="w-full h-full object-cover opacity-[0.44]" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/70 to-transparent" />
+                    </div>
+
+                    <div className="relative z-10">
+                        <p className={`font-figtree text-xs uppercase tracking-[0.3em] font-semibold mb-2 border-l-2 pl-3 ${project.accentClass} text-brand-light/60`}>
+                            Zenith {project.title}
+                        </p>
+                        <h3 className="font-copasetic text-xl mb-3 text-brand-light">{project.subtitle}</h3>
+                        <div className="h-px w-10 bg-brand-gradient mb-4" />
+                        <p className="font-figtree text-brand-light/80 font-light leading-relaxed text-xs">{project.fullDescription}</p>
+                    </div>
                 </div>
             </motion.div>
-
-            {/* Flipped face */}
-            <motion.div
-                animate={{ opacity: flipped ? 1 : 0, y: flipped ? 0 : 16 }}
-                transition={{ duration: 0.5, ease: "easeOut", delay: flipped ? 0.1 : 0 }}
-                className="absolute inset-0 z-10 p-8 flex flex-col justify-end"
-            >
-                <p className={`font-figtree text-xs uppercase tracking-[0.3em] font-semibold mb-2 border-l-2 pl-3 ${project.accentClass} text-brand-light/60`}>
-                    Zenith {project.title}
-                </p>
-                <h3 className="font-copasetic text-xl mb-3 text-brand-light">{project.subtitle}</h3>
-                <div className="h-px w-10 bg-brand-gradient mb-4" />
-                <p className="font-figtree text-brand-light/80 font-light leading-relaxed text-xs">{project.fullDescription}</p>
-            </motion.div>
-        </div>
+        </motion.button>
     );
 }
 
